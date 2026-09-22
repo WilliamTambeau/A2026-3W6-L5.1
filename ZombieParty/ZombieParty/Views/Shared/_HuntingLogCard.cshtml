@@ -1,0 +1,29 @@
+@model HuntingLog
+
+<div class="col-12">
+    <div class="card border-primary rounded shadow-sm" style="background: url('/images/imagesLayout/fond.png');">
+        <div class="card-body px-3 pt-3 pb-1 row">
+            <p class="card-title text-center text-warning h5"><b>@Model.Title</b></p>
+        </div>
+        <div style="padding-left:25px;">
+            <p class="text-white">@Model.Description</p>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <a class="p-2 border w-100 btn btn-light px-3" asp-action="Details" asp-route-Id="@Model.Id">
+                    Details
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="p-2 border w-100 btn btn-info px-3" asp-action="Upsert" asp-route-Id="@Model.Id">
+                    Edit
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="p-2 border w-100 btn btn-danger px-3" asp-action="Delete" asp-route-Id="@Model.Id">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
