@@ -20,23 +20,47 @@ namespace ZombieParty.Controllers
             return View(weapons);
         }
 
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
-            return View();
+            // Insert if null (ou 0)
+            if (id == null || id == 0) return View(new Weapon());
+
+            Weapon? recherche = _baseDonnees.Weapons.Where(w => w.WeaponId == id).SingleOrDefault();
+
+            // 404 if doesn't exist
+            if (recherche == null) return NotFound();
+
+            // Update if exists
+            return View(recherche);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Create(Weapon weapon)
+        public IActionResult Upsert(Weapon weapon, int? id)
         {
             if (ModelState.IsValid)
             {
-                // Ajouter à la BD
-                _baseDonnees.Weapons.Add(weapon);
-                TempData["Success"] = $"{weapon.Name} weapon added";
+                // Ajouter à la BD (id null, donc 0)
+                if (id == null || id == 0)
+                {
+                    _baseDonnees.Weapons.Add(weapon);
+                    TempData["Success"] = $"{weapon.Name} weapon added";
+                    _baseDonnees.SaveChanges();
+
+                    return this.RedirectToAction("Index");
+                }
+
+                
+
+                // sinon, tout est bon, update
+                // recherche = weapon;
+                _baseDonnees.Weapons.Update(weapon);
+
+                TempData["Success"] = $"{weapon.Name} weapon updated";
 
                 _baseDonnees.SaveChanges();
-
                 return this.RedirectToAction("Index");
+
             }
 
             return this.View(weapon);

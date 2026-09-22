@@ -1,16 +1,17 @@
 ﻿@model ZombieParty.Models.Weapon
 
 @{
-    ViewData["Title"] = "Create";
+    string titre = Model.WeaponId == 0 ? "Create" : "Edit";
+    ViewData["Title"] = titre;
 }
 
-<h1>Create</h1>
+<h1>@titre</h1>
 
 <h4>Weapon</h4>
 <hr />
 <div class="row">
     <div class="col-md-4 bg-white shadow ">
-        <form asp-action="Create">
+        <form asp-action="Upsert">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -52,15 +53,12 @@
                 <input asp-for="QtyBought" class="form-control" />
                 <span asp-validation-for="QtyBought" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2 mb-2">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group">
+                <input asp-for="WeaponId" class="form-control" hidden />
+                <partial name="_UpsertButton" model="@Model.WeaponId" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
