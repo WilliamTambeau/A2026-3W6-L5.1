@@ -17,6 +17,8 @@ namespace ZombieParty.Models
         [Range(1, 20, ErrorMessage = "{0} requires a value between {1} and {2}.")]
         public int Point { get; set; }
 
+        public int Force { get; set; }
+
         // FACULTATIF on peut formellement identifier le champ lien
         // sinon le champ de foreignKey sera auto généré dans la BD
         [Display(Name = "Zombie Type")]
